@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class LoginRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'email' => ['required', 'exists:users', 'email'],
+            'password' => ['required', 'min:6', 'max:250'],
+        ];
+    }
+
+    /**
+     *  Error messages for login
+     *  @return array
+     */
+
+    public function messages()
+    {
+        return [
+            'email.required' => "email address is missing!",
+            'email.email' => "Not a valid email address!", 
+            'email:unique' => "email already exists!",
+            'email.exists' => 'email address does not exists!',
+
+            'password.required' => "password is missing!",
+            'password.min' => "password is below minimum characters!",
+            "password.max" => "Too long password!",
+        ];
+    }
+}
